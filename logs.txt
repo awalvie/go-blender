@@ -1,0 +1,7 @@
+INFO: 2021/07/31 22:14:43 main.go:13: Starting the application...
+INFO: 2021/07/31 22:14:43 main.go:14: Something noteworthy happened
+WARN: 2021/07/31 22:14:43 main.go:15: There is something you should know about
+ERROR: 2021/07/31 22:14:43 main.go:16: Something went wrong
+INFO: 2021/07/31 22:23:59 main.go:25: Too few arguments
+INFO: 2021/07/31 22:24:11 main.go:26: Too few arguments
+INFO: 2021/07/31 22:24:22 main.go:26: Too few arguments
