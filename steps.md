@@ -12,7 +12,7 @@
 	|-- about/
 		|-- index.md
 		|-- friends.md
-		|-- tools.md
+		|-- tools
 			|-- index.md
 			|-- have.md
 			|-- want.md
@@ -31,10 +31,13 @@
 		|-- language.md
 	|-- compute/
 		|-- index.md
-		|-- compute.md
+		|-- languages.md
 		|-- projects/
 		|-- techlog/
 		|-- devlog/
+			|-- devlog 1
+			|-- devlog 2
+			|-- devlog 3
 	...
 	```
 
@@ -45,7 +48,23 @@
 	4. If any folders in list --> Go back to step 2
 	5. Render tree
 
+	map: key=/index value=[compute, exploration, ...]
+	map: key=/index/compute value=[_index, language, projects, techlog, devlog]
+	map: key=/index/compute/devlog value=[log1, log2, log3]
+	map: key=/index/compute/devlog/log1.md = []
+
+	devlog.html
+
+	|   devlog    | log       |
+
+	// map filename -> path
+	// path -> child
+
+	[[ devlog ]]
+
 	```
+	- 
+
 
 - [ ] Initialize directory with a default structure
 
