@@ -7,7 +7,7 @@ import (
 
 // blenderInit initialize new project repository in the given path
 func blenderInit(path string) {
-	paths := []string{"pages", "build", "templates", "static"}
+	paths := []string{"index", "build", "templates", "static"}
 	var dirPath string
 	for _, p := range paths {
 		dirPath = filepath.Join(path, p)

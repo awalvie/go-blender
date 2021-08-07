@@ -12,8 +12,8 @@ Your static site cocktail maker.
 usage: go-blender [options]
 
 option:
-	init PATH    initialize default go-blender project in PATH
-	build        builds project in currect directory
+	init  PATH    initialize default go-blender project in PATH
+	build PATH    builds project in currect directory
 `
 )
 
@@ -34,7 +34,17 @@ func main() {
 			fmt.Println(helpStr)
 			return
 		}
-		initPath := args[3]
+		initPath := args[2]
 		blenderInit(initPath)
+	case "build":
+		if len(args) < 3 {
+			fmt.Println(helpStr)
+			return
+		}
+		buildPath := args[2]
+		blenderBuild(buildPath)
+	default:
+		fmt.Println(helpStr)
 	}
+
 }
