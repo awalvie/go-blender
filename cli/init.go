@@ -1,22 +1,25 @@
-package main
+package cli
 
 import (
 	"os"
 	"path/filepath"
+
+	"github.com/awalvie/go-blender/logging"
 )
 
-// blenderInit initialize new project repository in the given path
-func blenderInit(path string) {
+// Init initialize new project repository in the given path
+func Init(path string) error {
 	paths := []string{"index", "build", "templates", "static"}
 	var dirPath string
+
 	for _, p := range paths {
 		dirPath = filepath.Join(path, p)
 		err := os.MkdirAll(dirPath, 0755)
 		if err != nil {
-			ErrorLogger.Println(err)
-			return
+			return err
 		}
 	}
 	fp, _ := filepath.Abs(path)
-	InfoLogger.Println("Created Project at ", fp)
+	logging.InfoLogger.Println("blender: created Project at ", fp)
+	return nil
 }

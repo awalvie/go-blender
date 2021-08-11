@@ -1,31 +1,35 @@
-package main
+package cli
 
 import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+
+	"github.com/awalvie/go-blender/logging"
 )
 
-// generate directory structure
-func blenderBuild(buildPath string) {
-	InfoLogger.Println("Generating directory tree")
-	fileMap, err := genFileMap(buildPath)
+// Build generate default directory structure in the given path
+func Build(buildPath string) error {
+	logging.InfoLogger.Println("Generating directory tree")
+
+	fileMap, err := generateFileMap(buildPath)
 	if err != nil {
-		ErrorLogger.Println(err)
+		logging.ErrorLogger.Println("Failed to generate file map for given directory")
+		return err
 	}
-	InfoLogger.Println("Building Site")
 
 	for k, v := range fileMap {
-		InfoLogger.Println("\nKey: ", k, "\nValues", v)
+		logging.InfoLogger.Println("\nKey: ", k, "\nValues: ", v)
 	}
 }
 
-func genFileMap(root string) (map[string][]string, error) {
+func generateFileMap(root string) (map[string][]string, error) {
 	fileMap := map[string][]string{}
 	var indexDir string
 
 	if _, err := os.Stat(root + "/index"); err != nil {
-		ErrorLogger.Println("Index directory doesn't exist in path")
+		logging.ErrorLogger.Println("Index directory doesn't exist in path")
+		return nil, err
 	} else {
 		indexDir = root + "/index"
 	}
@@ -36,18 +40,15 @@ func genFileMap(root string) (map[string][]string, error) {
 		if fi.IsDir() == true {
 			files, err := ioutil.ReadDir(path)
 			if err != nil {
-				ErrorLogger.Println(err)
-				return nil
+				return err
 			}
-
 			for _, f := range files {
 				fileNames = append(fileNames, f.Name())
 			}
-
 			fileMap[path] = fileNames
+
 		} else if fi.Name() != "_index.md" {
 			fileMap[path] = nil
-
 		}
 		return nil
 	})

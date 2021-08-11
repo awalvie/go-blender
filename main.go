@@ -1,50 +1,47 @@
 package main
 
 import (
-	"fmt"
 	"os"
-)
 
-const (
-	helpStr = `
-Your static site cocktail maker.
-
-usage: go-blender [options]
-
-option:
-	init  PATH    initialize default go-blender project in PATH
-	build PATH    builds project in currect directory
-`
+	"github.com/awalvie/go-blender/cli"
+	"github.com/awalvie/go-blender/logging"
 )
 
 // main parses arguments and builds website
 func main() {
-	logsInit()
+	logging.Init()
 	args := os.Args
 
 	if len(args) < 2 {
-		InfoLogger.Println("Too few arguments")
-		fmt.Println(helpStr)
+		cli.Help()
 		return
 	}
 
 	switch args[1] {
 	case "init":
 		if len(args) < 3 {
-			fmt.Println(helpStr)
-			return
+			logging.ErrorLogger.Fatalln("init: too few arguments")
 		}
+
 		initPath := args[2]
-		blenderInit(initPath)
+		err := cli.Init(initPath)
+		if err != nil {
+			logging.ErrorLogger.Fatalln("init: ", err)
+		}
+
 	case "build":
 		if len(args) < 3 {
-			fmt.Println(helpStr)
-			return
+			logging.ErrorLogger.Fatalln("build: too few arguments")
 		}
 		buildPath := args[2]
-		blenderBuild(buildPath)
+		err := cli.Build(buildPath)
+		if err != nil {
+			logging.ErrorLogger.Fatalln("build: ", err)
+		}
+
 	default:
-		fmt.Println(helpStr)
+		cli.Help()
+		return
 	}
 
 }
