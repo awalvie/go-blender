@@ -8,6 +8,7 @@ import (
 )
 
 // Init initialize new project repository in the given path
+// with empty "index", "build", "templates" and "static" folders
 func Init(path string) error {
 	paths := []string{"index", "build", "templates", "static"}
 	var dirPath string
