@@ -20,3 +20,14 @@ func Clean(dir string) error {
 	}
 	return nil
 }
+
+// Exists reports whether the named file or directory exists.
+func Exists(name string) (bool, error) {
+	_, err := os.Stat(name)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, err
+		}
+	}
+	return true, nil
+}

@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/awalvie/go-blender/logging"
 	"github.com/awalvie/go-blender/utils"
@@ -14,6 +15,7 @@ const (
 	INDEX     = "/index"
 	TEMPLATES = "/templates"
 	STATIC    = "/static"
+	EXT_MD    = ".md"
 	_INDEX    = "_index.md"
 )
 
@@ -25,13 +27,11 @@ func initDirMap(root string) (map[string][]string, error) {
 	logging.InfoLogger.Println("Generating directory map")
 
 	fileMap := map[string][]string{}
-	var indexDir string
+	indexDir := root + INDEX
 
-	if _, err := os.Stat(root + INDEX); err != nil {
+	if _, err := utils.Exists(indexDir); err != nil {
 		logging.ErrorLogger.Println("Index directory doesn't exist in path")
 		return nil, err
-	} else {
-		indexDir = root + INDEX
 	}
 
 	err := filepath.Walk(indexDir, func(path string, fi os.FileInfo, err error) error {
