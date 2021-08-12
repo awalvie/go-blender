@@ -2,7 +2,7 @@
 
 - [x] Info, Warn and Error Logging
 - [x] Command line parsing
-- [ ] Figure out markdown directory structure
+- [x] Figure out markdown directory structure
 	- Allow users to turn any page into a folder, ref: [xxiivv](https://wiki.xxiivv.com/site/home.html)
 
 	```console
@@ -63,8 +63,10 @@
 	[[ devlog ]]
 
 	```
-	- 
+	-
 
 
-- [ ] Initialize directory with a default structure
-
+- [x] Initialize directory with a default structure
+- [x] Generate directory tree for source files
+- [ ] Parse source markdown files and render them in HTML
+- [ ] Extend markdown parsing to support backlinks
