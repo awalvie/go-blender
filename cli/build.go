@@ -6,32 +6,32 @@ import (
 	"path/filepath"
 
 	"github.com/awalvie/go-blender/logging"
+	"github.com/awalvie/go-blender/utils"
 )
 
-// Build generate default directory structure in the given path
-func Build(buildPath string) error {
-	logging.InfoLogger.Println("Generating directory tree")
+const (
+	BUILD     = "/build"
+	INDEX     = "/index"
+	TEMPLATES = "/templates"
+	STATIC    = "/static"
+	_INDEX    = "_index.md"
+)
 
-	fileMap, err := generateFileMap(buildPath)
-	if err != nil {
-		logging.ErrorLogger.Println("Failed to generate file map for given directory")
-		return err
-	}
+// initDirMap returns a map with:
+// key: path to every file/directory inside the given root
+// value: first level files/directories if the key is a directory
+// Ignores '_index.md' since that signifies the directory page itself
+func initDirMap(root string) (map[string][]string, error) {
+	logging.InfoLogger.Println("Generating directory map")
 
-	for k, v := range fileMap {
-		logging.InfoLogger.Println("\nKey: ", k, "\nValues: ", v)
-	}
-}
-
-func generateFileMap(root string) (map[string][]string, error) {
 	fileMap := map[string][]string{}
 	var indexDir string
 
-	if _, err := os.Stat(root + "/index"); err != nil {
+	if _, err := os.Stat(root + INDEX); err != nil {
 		logging.ErrorLogger.Println("Index directory doesn't exist in path")
 		return nil, err
 	} else {
-		indexDir = root + "/index"
+		indexDir = root + INDEX
 	}
 
 	err := filepath.Walk(indexDir, func(path string, fi os.FileInfo, err error) error {
@@ -47,10 +47,51 @@ func generateFileMap(root string) (map[string][]string, error) {
 			}
 			fileMap[path] = fileNames
 
-		} else if fi.Name() != "_index.md" {
+		} else if fi.Name() != _INDEX {
 			fileMap[path] = nil
 		}
 		return nil
 	})
 	return fileMap, err
+}
+
+func renderFiles(fileMap map[string][]string) error {
+	logging.InfoLogger.Println("Rendering Files")
+
+	for k, v := range fileMap {
+		logging.InfoLogger.Println("Key:", k, "Value:", v)
+	}
+	return nil
+}
+
+// Build does the following:
+// * Generates directory map from the index directory
+// * Parses files/directories in the dir map
+// * Generates static content
+// * Copies it into the build folder
+func Build(buildPath string) error {
+	logging.InfoLogger.Println("Initializing build")
+
+	// Clean the build directory.
+	buildDir := buildPath + BUILD
+	logging.InfoLogger.Println("Cleaning 'build' directory")
+	if err := utils.Clean(buildDir); err != nil {
+		logging.ErrorLogger.Println("Failed to clean 'build' directory")
+		return err
+	}
+
+	// Get the file map
+	fileMap, err := initDirMap(buildPath)
+	if err != nil {
+		logging.ErrorLogger.Println("Failed to initialize directory map")
+		return err
+	}
+
+	// Parse files/folders in map and renders them in HTML
+	if err := renderFiles(fileMap); err != nil {
+		logging.ErrorLogger.Println("Failed to render files")
+		return err
+	}
+
+	return nil
 }
