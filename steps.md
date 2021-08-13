@@ -68,5 +68,6 @@
 
 - [x] Initialize directory with a default structure
 - [x] Generate directory tree for source files
+- [x] Translate lyceum html files to md, to serve as test subjects
 - [ ] Parse source markdown files and render them in HTML
 - [ ] Extend markdown parsing to support backlinks
