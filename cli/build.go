@@ -1,22 +1,25 @@
 package cli
 
 import (
+	"bytes"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 
-	"github.com/awalvie/go-blender/logging"
 	"github.com/awalvie/go-blender/utils"
+	"github.com/yuin/goldmark"
 )
 
 const (
-	BUILD     = "/build"
-	INDEX     = "/index"
-	TEMPLATES = "/templates"
-	STATIC    = "/static"
-	EXT_MD    = ".md"
-	_INDEX    = "_index.md"
+	BUILD_DIR     = "build/"
+	INDEX_DIR     = "index/"
+	TEMPLATES_DIR = "templates/"
+	STATIC_DIR    = "static/"
+	SITE_DIR      = "site/"
+	EXT_MD        = ".md"
+	_INDEX        = "_index.md"
+	PATH_DELIM    = "/"
 )
 
 // initDirMap returns a map with:
@@ -26,7 +29,11 @@ const (
 func initDirMap(root string) (map[string][]string, error) {
 
 	fileMap := map[string][]string{}
-	indexDir := root + INDEX
+	indexDir := filepath.Join(
+		root,
+		PATH_DELIM,
+		INDEX_DIR,
+	)
 
 	if _, err := utils.Exists(indexDir); err != nil {
 		return nil, err
@@ -53,11 +60,61 @@ func initDirMap(root string) (map[string][]string, error) {
 	return fileMap, err
 }
 
-func renderFiles(fileMap map[string][]string) error {
-	logging.InfoLogger.Println("Rendering Files")
+// renderFiles takes in a directory map, parses all .md files
+// and renders them into respective htmls
+func renderFiles(dirMap map[string][]string) error {
 
-	for k, v := range fileMap {
-		logging.InfoLogger.Println("Key:", k, "Value:", v)
+	// if key is directory, parse _index.md and render as directory.html
+	// if key is file, parse markdown and reader it as file.html
+	for path, _ := range dirMap {
+
+		// if key has '.md' it's a file, directly parse file markdown
+		if strings.Contains(path, EXT_MD) {
+
+			// read contents of the file into a buffer
+			mdData, err := ioutil.ReadFile(path)
+			if err != nil {
+				return err
+			}
+
+			// convert file to HTML
+			var htmlData bytes.Buffer
+			if err := goldmark.Convert(mdData, &htmlData); err != nil {
+				return err
+			}
+
+			// write files to BUILD directory
+			fileName := filepath.Base(path)
+			filePath := filepath.Join(
+				SITE_DIR,
+				BUILD_DIR,
+				strings.Replace(fileName, "md", "html", 1),
+			)
+
+			file, err := os.Create(filePath)
+			if err != nil {
+				return err
+			}
+			defer file.Close()
+
+			_, err = file.WriteString(htmlData.String())
+			if err != nil {
+				return err
+			}
+
+		} else {
+			// check if the directory has a a _index.md file to represent
+			// the folder page and parse it
+			indexFile := filepath.Join(
+				path,
+				PATH_DELIM,
+				_INDEX,
+			)
+
+			if _, err := utils.Exists(indexFile); err != nil {
+				return err
+			}
+		}
 	}
 	return nil
 }
@@ -70,8 +127,12 @@ func renderFiles(fileMap map[string][]string) error {
 func Build(buildPath string) error {
 
 	// Clean the build directory.
-	buildDir := buildPath + BUILD
-	logging.InfoLogger.Println("Cleaning 'build' directory")
+	buildDir := filepath.Join(
+		buildPath,
+		PATH_DELIM,
+		BUILD_DIR,
+	)
+
 	if err := utils.Clean(buildDir); err != nil {
 		return err
 	}
