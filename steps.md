@@ -69,5 +69,9 @@
 - [x] Initialize directory with a default structure
 - [x] Generate directory tree for source files
 - [x] Translate lyceum html files to md, to serve as test subjects
-- [ ] Parse source markdown files and render them in HTML
+- [x] Sort translated md files into folders
+- [x] Parse source markdown files and render them in HTML using a library like [goldmark](https://github.com/yuin/goldmark)
+- [ ] Parse frontmatter
+- [ ] Create templates
+- [ ] Use frontmatter in templates
 - [ ] Extend markdown parsing to support backlinks
