@@ -16,7 +16,6 @@ const (
 	INDEX_DIR     = "index/"
 	TEMPLATES_DIR = "templates/"
 	STATIC_DIR    = "static/"
-	SITE_DIR      = "site/"
 	EXT_MD        = ".md"
 	_INDEX        = "_index.md"
 	PATH_DELIM    = "/"
@@ -60,9 +59,10 @@ func initDirMap(root string) (map[string][]string, error) {
 	return fileMap, err
 }
 
-// renderFiles takes in a directory map, parses all .md files
-// and renders them into respective htmls
-func renderFiles(dirMap map[string][]string) error {
+// renderFiles needs a directory map and buildPath as arguments.
+// It parses all .md files in the buildPath/site and renders them into
+// respective htmls in the buildPath/build directory
+func renderFiles(dirMap map[string][]string, buildPath string) error {
 
 	// if key is directory, parse _index.md and render as directory.html
 	// if key is file, parse markdown and reader it as file.html
@@ -86,7 +86,7 @@ func renderFiles(dirMap map[string][]string) error {
 			// write files to BUILD directory
 			fileName := filepath.Base(path)
 			filePath := filepath.Join(
-				SITE_DIR,
+				buildPath,
 				BUILD_DIR,
 				strings.Replace(fileName, "md", "html", 1),
 			)
@@ -144,7 +144,7 @@ func Build(buildPath string) error {
 	}
 
 	// Parse files/folders in map and renders them in HTML
-	if err := renderFiles(fileMap); err != nil {
+	if err := renderFiles(fileMap, buildPath); err != nil {
 		return err
 	}
 
