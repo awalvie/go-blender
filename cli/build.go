@@ -24,13 +24,11 @@ const (
 // value: first level files/directories if the key is a directory
 // Ignores '_index.md' since that signifies the directory page itself
 func initDirMap(root string) (map[string][]string, error) {
-	logging.InfoLogger.Println("Generating directory map")
 
 	fileMap := map[string][]string{}
 	indexDir := root + INDEX
 
 	if _, err := utils.Exists(indexDir); err != nil {
-		logging.ErrorLogger.Println("Index directory doesn't exist in path")
 		return nil, err
 	}
 
@@ -70,26 +68,22 @@ func renderFiles(fileMap map[string][]string) error {
 // * Generates static content
 // * Copies it into the build folder
 func Build(buildPath string) error {
-	logging.InfoLogger.Println("Initializing build")
 
 	// Clean the build directory.
 	buildDir := buildPath + BUILD
 	logging.InfoLogger.Println("Cleaning 'build' directory")
 	if err := utils.Clean(buildDir); err != nil {
-		logging.ErrorLogger.Println("Failed to clean 'build' directory")
 		return err
 	}
 
 	// Get the file map
 	fileMap, err := initDirMap(buildPath)
 	if err != nil {
-		logging.ErrorLogger.Println("Failed to initialize directory map")
 		return err
 	}
 
 	// Parse files/folders in map and renders them in HTML
 	if err := renderFiles(fileMap); err != nil {
-		logging.ErrorLogger.Println("Failed to render files")
 		return err
 	}
 
