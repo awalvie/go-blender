@@ -1,14 +1,13 @@
 package cli
 
 import (
-	"bytes"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/awalvie/go-blender/markdown"
 	"github.com/awalvie/go-blender/utils"
-	"github.com/yuin/goldmark"
 )
 
 const (
@@ -66,24 +65,17 @@ func renderFiles(dirMap map[string][]string, buildPath string) error {
 
 	// if key is directory, parse _index.md and render as directory.html
 	// if key is file, parse markdown and reader it as file.html
-	for path, _ := range dirMap {
+	for path := range dirMap {
 
 		// if key has '.md' it's a file, directly parse file markdown
 		if strings.Contains(path, EXT_MD) {
 
-			// read contents of the file into a buffer
-			mdData, err := ioutil.ReadFile(path)
+			mdData, metadata, err := markdown.RenderMD(path)
 			if err != nil {
 				return err
 			}
 
-			// convert file to HTML
-			var htmlData bytes.Buffer
-			if err := goldmark.Convert(mdData, &htmlData); err != nil {
-				return err
-			}
-
-			// write files to BUILD directory
+			// created file paths
 			fileName := filepath.Base(path)
 			filePath := filepath.Join(
 				buildPath,
@@ -91,13 +83,19 @@ func renderFiles(dirMap map[string][]string, buildPath string) error {
 				strings.Replace(fileName, "md", "html", 1),
 			)
 
-			file, err := os.Create(filePath)
-			if err != nil {
-				return err
-			}
-			defer file.Close()
+			// templateDir
+			templateDir := filepath.Join(
+				buildPath,
+				TEMPLATES_DIR,
+			)
 
-			_, err = file.WriteString(htmlData.String())
+			// render HTML
+			data := struct {
+				Body string
+				Meta map[string]interface{}
+			}{mdData.String(), metadata}
+
+			err = markdown.RenderHTML(filePath, templateDir, metadata, data)
 			if err != nil {
 				return err
 			}
