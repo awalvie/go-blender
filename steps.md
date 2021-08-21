@@ -71,7 +71,17 @@
 - [x] Translate lyceum html files to md, to serve as test subjects
 - [x] Sort translated md files into folders
 - [x] Parse source markdown files and render them in HTML using a library like [goldmark](https://github.com/yuin/goldmark)
-- [ ] Parse frontmatter
+- [x] Parse frontmatter
+- [ ] Now, how the hell am I going to do templating
+	- Build steps are as follows:
+		- Initialize `goldmark`
+		- Iterate through all files and dirs
+		- If file
+			- Read file data
+			- Convert to HTML
+			- Parse metadata
+			- Send HTML data, metadata and file map to template
+			- Somehow render the navigation logic in the template
 - [ ] Create templates
 - [ ] Use frontmatter in templates
 - [ ] Extend markdown parsing to support backlinks
