@@ -2,6 +2,7 @@ package utils
 
 import (
 	"os"
+	"path"
 	"path/filepath"
 )
 
@@ -30,4 +31,12 @@ func Exists(name string) (bool, error) {
 		}
 	}
 	return true, nil
+}
+
+// Modify any string to have a .html extension
+func ToHTML(name string) string {
+	ext := path.Ext(name)
+	htmlName := name[0:len(name)-len(ext)] + ".html"
+
+	return htmlName
 }
