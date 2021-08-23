@@ -189,9 +189,49 @@ func renderFiles(dirMap map[string][]string, buildPath string) error {
 				_INDEX,
 			)
 
+			// check if the index file describing a directory exists
 			if _, err := utils.Exists(indexFile); err != nil {
 				return err
 			}
+
+			// if key has '.md' it's a file, directly parse file markdown
+			mdData, metadata, err := markdown.RenderMD(indexFile)
+			if err != nil {
+				return err
+			}
+
+			// created file paths
+			fileName := filepath.Base(path)
+			filePath := filepath.Join(
+				buildPath,
+				BUILD_DIR,
+				utils.ToHTML(fileName),
+			)
+
+			// templateDir
+			templateDir := filepath.Join(
+				buildPath,
+				TEMPLATES_DIR,
+			)
+
+			// generate Navbar for website
+			navbar, err := genNavbar(dirMap, path)
+			if err != nil {
+				return err
+			}
+
+			// render HTML
+			data := struct {
+				Body string
+				Meta map[string]interface{}
+				Nav  Navbar
+			}{mdData.String(), metadata, navbar}
+
+			err = markdown.RenderHTML(filePath, templateDir, metadata, data)
+			if err != nil {
+				return err
+			}
+
 		}
 	}
 	return nil
