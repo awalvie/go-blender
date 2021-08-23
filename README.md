@@ -5,9 +5,9 @@ Your perfect static site cocktail maker.
 
 **Required**
 
-- [ ] Multi-folder structure. Every page can become a category unto itself.
+- [x] Multi-folder structure. Every page can become a category unto itself.
 - [ ] Support for tags.
-- [ ] Markdown editing (I'm tired of writing HTML).
+- [x] Markdown editing (I'm tired of writing HTML).
 - [ ] Custom RSS Feeds for different sections.
 
 **Nice to have**
