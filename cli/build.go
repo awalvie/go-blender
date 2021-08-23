@@ -226,5 +226,20 @@ func Build(buildPath string) error {
 		return err
 	}
 
+	// Copy the static directory into build
+	// ex: build/static/
+	staticDir := filepath.Join(
+		buildPath,
+		PATH_DELIM,
+		STATIC_DIR,
+	)
+
+	buildStatic := filepath.Join(buildDir, STATIC_DIR)
+
+	os.Mkdir(buildStatic, 0755)
+	if err := utils.CopyDir(staticDir, buildStatic); err != nil {
+		return err
+	}
+
 	return nil
 }
