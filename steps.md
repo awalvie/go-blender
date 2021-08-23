@@ -72,7 +72,7 @@
 - [x] Sort translated md files into folders
 - [x] Parse source markdown files and render them in HTML using a library like [goldmark](https://github.com/yuin/goldmark)
 - [x] Parse frontmatter
-- [ ] Now, how the hell am I going to do templating
+- [x] Now, how the hell am I going to do templating
 	- Build steps are as follows:
 		- Initialize `goldmark`
 		- Iterate through all files and dirs
@@ -82,6 +82,7 @@
 			- Parse metadata
 			- Send HTML data, metadata and file map to template
 			- Somehow render the navigation logic in the template
-- [ ] Create templates
-- [ ] Use frontmatter in templates
+- [x] Create templates
+- [x] Use frontmatter in templates
+- [ ] Make it look good
 - [ ] Extend markdown parsing to support backlinks
