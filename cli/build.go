@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -91,13 +90,6 @@ func genNavbar(dirMap map[string][]string, path string) (Navbar, error) {
 		}
 	}
 
-	if path == "site/index/creative/art.md" {
-		fmt.Println("File:", path)
-		fmt.Println("Parent:", navbar.Parent)
-		fmt.Println("Current:", navbar.Current)
-		fmt.Println("Child:", navbar.Child)
-		fmt.Println("--------------------")
-	}
 	return navbar, nil
 }
 
