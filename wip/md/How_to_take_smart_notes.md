@@ -1,5 +1,0 @@
----
-title: How to Take Smart Notes
-subtitle: Why should you take notes while reading?
-created: 2020-1-17
----
