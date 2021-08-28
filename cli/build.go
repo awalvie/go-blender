@@ -91,7 +91,8 @@ func renderFiles(dirMap map[string][]string, buildPath string) error {
 			)
 
 			// generate Navbar for website
-			nav, err := navbar.Init(dirMap, path)
+			nav := navbar.Navbar{}
+			err = nav.Init(dirMap, path)
 			if err != nil {
 				return err
 			}
@@ -143,7 +144,8 @@ func renderFiles(dirMap map[string][]string, buildPath string) error {
 			)
 
 			// generate Navbar for website
-			nav, err := navbar.Init(dirMap, path)
+			nav := navbar.Navbar{}
+			err = nav.Init(dirMap, path)
 			if err != nil {
 				return err
 			}

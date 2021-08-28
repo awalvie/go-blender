@@ -18,9 +18,7 @@ type Element struct {
 	Name string
 }
 
-func Init(dirMap map[string][]string, path string) (Navbar, error) {
-	navbar := Navbar{}
-
+func (nav *Navbar) Init(dirMap map[string][]string, path string) error {
 	// get all child nodes from map
 	childNodes := dirMap[path]
 	for _, v := range childNodes {
@@ -28,7 +26,7 @@ func Init(dirMap map[string][]string, path string) (Navbar, error) {
 			name := strings.TrimSuffix(v, ".md")
 			href := utils.ToHTML(v)
 			element := Element{href, name}
-			navbar.Child = append(navbar.Child, element)
+			nav.Child = append(nav.Child, element)
 		}
 	}
 
@@ -43,12 +41,12 @@ func Init(dirMap map[string][]string, path string) (Navbar, error) {
 				name := strings.TrimSuffix(v, ".md") + "/"
 				href := utils.ToHTML(v)
 				element = Element{href, name}
-				navbar.Current = append(navbar.Current, element)
+				nav.Current = append(nav.Current, element)
 			} else {
 				name := strings.TrimSuffix(v, ".md")
 				href := utils.ToHTML(v)
 				element = Element{href, name}
-				navbar.Current = append(navbar.Current, element)
+				nav.Current = append(nav.Current, element)
 			}
 
 		}
@@ -66,15 +64,15 @@ func Init(dirMap map[string][]string, path string) (Navbar, error) {
 				name := strings.TrimSuffix(v, ".md") + "/"
 				href := utils.ToHTML(v)
 				element = Element{href, name}
-				navbar.Parent = append(navbar.Parent, element)
+				nav.Parent = append(nav.Parent, element)
 			} else {
 				name := strings.TrimSuffix(v, ".md")
 				href := utils.ToHTML(v)
 				element = Element{href, name}
-				navbar.Parent = append(navbar.Parent, element)
+				nav.Parent = append(nav.Parent, element)
 			}
 		}
 	}
 
-	return navbar, nil
+	return nil
 }
