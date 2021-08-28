@@ -6,7 +6,6 @@ import (
 	"os"
 	"path/filepath"
 	"text/template"
-	"time"
 
 	"github.com/yuin/goldmark"
 	meta "github.com/yuin/goldmark-meta"
@@ -48,12 +47,7 @@ func RenderHTML(destination, templateDir string, meta map[string]interface{}, da
 		metaTemplate = "default.html"
 	}
 
-	t, err := template.New("").Funcs(template.FuncMap{
-		"parsedate": func(s string) time.Time {
-			date, _ := time.Parse("2006-01-02", s)
-			return date
-		},
-	}).ParseGlob(filepath.Join(templateDir, "*.html"))
+	t, err := template.New("").ParseGlob(filepath.Join(templateDir, "*.html"))
 
 	if err != nil {
 		return err
