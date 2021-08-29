@@ -10,11 +10,15 @@ import (
 	"github.com/yuin/goldmark"
 	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
+	"github.com/yuin/goldmark/renderer/html"
 )
 
 func RenderMD(filepath string) (bytes.Buffer, map[string]interface{}, error) {
 	// initialize goldmark
 	markdown := goldmark.New(
+		goldmark.WithRendererOptions(
+			html.WithUnsafe(),
+		),
 		goldmark.WithExtensions(
 			meta.Meta,
 		),
