@@ -24,6 +24,7 @@ func (nav *Navbar) Init(dirMap map[string][]string, path string) error {
 	for _, v := range childNodes {
 		if v != "_index.md" {
 			name := strings.TrimSuffix(v, ".md")
+			name = strings.ReplaceAll(name, "_", " ")
 			href := utils.ToHTML(v)
 			element := Element{href, name}
 			nav.Child = append(nav.Child, element)
@@ -39,11 +40,13 @@ func (nav *Navbar) Init(dirMap map[string][]string, path string) error {
 			var element Element
 			if base := filepath.Base(path); base == v {
 				name := strings.TrimSuffix(v, ".md") + "/"
+				name = strings.ReplaceAll(name, "_", " ")
 				href := utils.ToHTML(v)
 				element = Element{href, name}
 				nav.Current = append(nav.Current, element)
 			} else {
 				name := strings.TrimSuffix(v, ".md")
+				name = strings.ReplaceAll(name, "_", " ")
 				href := utils.ToHTML(v)
 				element = Element{href, name}
 				nav.Current = append(nav.Current, element)
@@ -62,11 +65,13 @@ func (nav *Navbar) Init(dirMap map[string][]string, path string) error {
 
 			if base := filepath.Base(currentDir); base == v {
 				name := strings.TrimSuffix(v, ".md") + "/"
+				name = strings.ReplaceAll(name, "_", " ")
 				href := utils.ToHTML(v)
 				element = Element{href, name}
 				nav.Parent = append(nav.Parent, element)
 			} else {
 				name := strings.TrimSuffix(v, ".md")
+				name = strings.ReplaceAll(name, "_", " ")
 				href := utils.ToHTML(v)
 				element = Element{href, name}
 				nav.Parent = append(nav.Parent, element)
