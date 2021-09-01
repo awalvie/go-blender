@@ -41,7 +41,7 @@ func initDirMap(root string) (map[string][]string, error) {
 	err := filepath.Walk(indexDir, func(path string, fi os.FileInfo, err error) error {
 		fileNames := []string{}
 
-		if fi.IsDir() == true {
+		if fi.IsDir() {
 			files, err := ioutil.ReadDir(path)
 			if err != nil {
 				return err
