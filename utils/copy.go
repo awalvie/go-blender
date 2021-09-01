@@ -53,7 +53,7 @@ func CopyDir(src, dst string) error {
 		return fmt.Errorf("error: %q is not a directory", fi)
 	}
 
-	if err = os.MkdirAll(dst, 0600); err != nil {
+	if err = os.MkdirAll(dst, 0755); err != nil {
 		return err
 	}
 
