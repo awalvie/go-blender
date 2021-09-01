@@ -206,7 +206,7 @@ func Build(buildPath string) error {
 
 	buildStatic := filepath.Join(buildDir, STATIC_DIR)
 
-	os.Mkdir(buildStatic, 0755)
+	os.Mkdir(buildStatic, 0600)
 	if err := utils.CopyDir(staticDir, buildStatic); err != nil {
 		return err
 	}

@@ -15,7 +15,7 @@ func Init(path string) error {
 
 	for _, p := range paths {
 		dirPath = filepath.Join(path, p)
-		err := os.MkdirAll(dirPath, 0755)
+		err := os.MkdirAll(dirPath, 0600)
 		if err != nil {
 			return err
 		}
