@@ -84,5 +84,5 @@
 			- Somehow render the navigation logic in the template
 - [x] Create templates
 - [x] Use frontmatter in templates
-- [ ] Make it look good
+- [x] Make it look good
 - [ ] Extend markdown parsing to support backlinks

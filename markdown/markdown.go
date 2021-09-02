@@ -9,6 +9,7 @@ import (
 
 	"github.com/yuin/goldmark"
 	meta "github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
 )
@@ -21,6 +22,7 @@ func RenderMD(filepath string) (bytes.Buffer, map[string]interface{}, error) {
 		),
 		goldmark.WithExtensions(
 			meta.Meta,
+			extension.Strikethrough,
 		),
 	)
 
