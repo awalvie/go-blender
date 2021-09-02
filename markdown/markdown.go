@@ -23,6 +23,7 @@ func RenderMD(filepath string) (bytes.Buffer, map[string]interface{}, error) {
 		goldmark.WithExtensions(
 			meta.Meta,
 			extension.Strikethrough,
+			extension.GFM,
 		),
 	)
 
