@@ -24,6 +24,7 @@ func RenderMD(filepath string) (bytes.Buffer, map[string]interface{}, error) {
 			meta.Meta,
 			extension.Strikethrough,
 			extension.GFM,
+			extension.Footnote,
 		),
 	)
 
