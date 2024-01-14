@@ -2,7 +2,6 @@ package markdown
 
 import (
 	"bytes"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"text/template"
@@ -29,7 +28,7 @@ func RenderMD(filepath string) (bytes.Buffer, map[string]interface{}, error) {
 	)
 
 	// read contents of the file into a buffer
-	mdData, err := ioutil.ReadFile(filepath)
+	mdData, err := os.ReadFile(filepath)
 	if err != nil {
 		return bytes.Buffer{}, nil, err
 	}
