@@ -13,8 +13,7 @@ Usage: go-blender [options]
 
 option:
 	init  PATH    initialize default go-blender project in PATH
-	build PATH    builds project in currect directory
-`
+	build PATH    builds project in currect directory`
 )
 
 // Help prints the usage message to stdout
