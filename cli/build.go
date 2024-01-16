@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -42,7 +41,7 @@ func initDirMap(root string) (map[string][]string, error) {
 		fileNames := []string{}
 
 		if fi.IsDir() {
-			files, err := ioutil.ReadDir(path)
+			files, err := os.ReadDir(path)
 			if err != nil {
 				return err
 			}
