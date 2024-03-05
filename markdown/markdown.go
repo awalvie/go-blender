@@ -13,6 +13,8 @@ import (
 	"github.com/yuin/goldmark/renderer/html"
 )
 
+// RenderMD reads a markdown file and returns the rendered HTML and
+// markdown metadata.
 func RenderMD(filepath string) (bytes.Buffer, map[string]interface{}, error) {
 	// initialize goldmark
 	markdown := goldmark.New(

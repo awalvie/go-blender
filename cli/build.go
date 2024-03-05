@@ -75,8 +75,10 @@ func renderFiles(dirMap map[string][]string, buildPath string) error {
 				return err
 			}
 
-			// created file paths
-			fileName := filepath.Base(path)
+			// Trim the buildPath from the path
+			fileName := strings.TrimPrefix(path, buildPath)
+
+			// Create the file path for the HTML file
 			filePath := filepath.Join(
 				buildPath,
 				BUILD_DIR,
@@ -128,8 +130,8 @@ func renderFiles(dirMap map[string][]string, buildPath string) error {
 				return err
 			}
 
-			// created file paths
-			fileName := filepath.Base(path)
+			// Trim the buildPath from the path
+			fileName := strings.TrimPrefix(path, buildPath)
 			filePath := filepath.Join(
 				buildPath,
 				BUILD_DIR,
@@ -218,10 +220,10 @@ func Build(buildPath string) error {
 		return err
 	}
 
-	// // Parse files/folders in map and renders them in HTML
-	// if err := renderFiles(fileMap, buildPath); err != nil {
-	// 	return err
-	// }
+	// Parse files/folders in map and renders them in HTML
+	if err := renderFiles(fileMap, buildPath); err != nil {
+		return err
+	}
 
 	// Copy the static directory into build
 	// ex: build/static/
