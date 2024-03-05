@@ -7,6 +7,11 @@ import (
 	"github.com/awalvie/go-blender/cli"
 )
 
+func init() {
+	// Configure logger flags
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+}
+
 func main() {
 	args := os.Args
 
