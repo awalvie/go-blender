@@ -7,7 +7,6 @@ import (
 	"github.com/awalvie/go-blender/cli"
 )
 
-// main parses arguments and builds website
 func main() {
 	args := os.Args
 

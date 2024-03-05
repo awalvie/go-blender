@@ -166,6 +166,29 @@ func renderFiles(dirMap map[string][]string, buildPath string) error {
 	return nil
 }
 
+func initBuildDir(filemap map[string][]string, buildPath string) error {
+	for path := range filemap {
+		if strings.Contains(path, EXT_MD) {
+			continue
+		}
+
+		// Trim the buildPath from the path
+		path = strings.Replace(path, buildPath, "", 1)
+
+		// create the path for each directory
+		buildDir := filepath.Join(
+			buildPath,
+			BUILD_DIR,
+			path,
+		)
+
+		if err := os.MkdirAll(buildDir, 0755); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // Build does the following:
 // * Generates directory map from the index directory
 // * Parses files/directories in the dir map
@@ -190,10 +213,15 @@ func Build(buildPath string) error {
 		return err
 	}
 
-	// Parse files/folders in map and renders them in HTML
-	if err := renderFiles(fileMap, buildPath); err != nil {
+	// Create folders in build directory
+	if err = initBuildDir(fileMap, buildPath); err != nil {
 		return err
 	}
+
+	// // Parse files/folders in map and renders them in HTML
+	// if err := renderFiles(fileMap, buildPath); err != nil {
+	// 	return err
+	// }
 
 	// Copy the static directory into build
 	// ex: build/static/

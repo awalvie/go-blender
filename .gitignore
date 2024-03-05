@@ -16,3 +16,6 @@
 go-blender
 site
 .DS_Store
+
+# Build directrories
+bin/
