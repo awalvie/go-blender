@@ -1,10 +1,9 @@
 package cli
 
 import (
+	"log"
 	"os"
 	"path/filepath"
-
-	"github.com/awalvie/go-blender/logging"
 )
 
 // Init initialize new project repository in the given path
@@ -13,6 +12,7 @@ func Init(path string) error {
 	paths := []string{"index", "build", "templates", "static"}
 	var dirPath string
 
+	// Make all directories
 	for _, p := range paths {
 		dirPath = filepath.Join(path, p)
 		err := os.MkdirAll(dirPath, 0755)
@@ -21,6 +21,6 @@ func Init(path string) error {
 		}
 	}
 	fp, _ := filepath.Abs(path)
-	logging.InfoLogger.Println("blender: created Project at ", fp)
+	log.Println("blender: created Project at ", fp)
 	return nil
 }
