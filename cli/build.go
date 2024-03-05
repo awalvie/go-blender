@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -132,11 +133,14 @@ func renderFiles(dirMap map[string][]string, buildPath string) error {
 
 			// Trim the buildPath from the path
 			fileName := strings.TrimPrefix(path, buildPath)
+
+			// Create _index.html file path
 			filePath := filepath.Join(
 				buildPath,
 				BUILD_DIR,
-				utils.ToHTML(fileName),
+				fileName,
 			)
+			filePath = fmt.Sprintf("%s/%s", filePath, "index.html")
 
 			// templateDir
 			templateDir := filepath.Join(
