@@ -12,8 +12,10 @@ Your static site cocktail maker.
 Usage: go-blender [options]
 
 option:
-	init  PATH    initialize default go-blender project in PATH
-	build PATH    builds project in currect directory`
+	init  PATH          initialize default go-blender project in PATH
+	build PATH          builds project in currect directory
+	serve [HOST:PORT]  serve project on ADDR (default: :3000)
+`
 )
 
 // Help prints the usage message to stdout

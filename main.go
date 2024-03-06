@@ -42,6 +42,17 @@ func main() {
 			log.Fatalln("build: ", err)
 		}
 
+	case "serve":
+		var addr string
+		if len(args) == 3 {
+			addr = args[2]
+		} else {
+			addr = ":3000"
+		}
+		if err := cli.Serve(addr); err != nil {
+			log.Fatalln("serve: ", err)
+		}
+
 	default:
 		cli.Help()
 		return
