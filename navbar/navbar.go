@@ -18,66 +18,35 @@ type Element struct {
 	Name string
 }
 
-func (nav *Navbar) Init(dirMap map[string][]string, path string) error {
-	// get all child nodes from map
-	childNodes := dirMap[path]
-	for _, v := range childNodes {
-		if v != "_index.md" {
-			name := strings.TrimSuffix(v, ".md")
-			name = strings.ReplaceAll(name, "_", " ")
-			href := utils.ToHTML(v)
-			element := Element{href, name}
-			nav.Child = append(nav.Child, element)
+func addElements(nodes []string, target *[]Element, basePath string) {
+	for _, v := range nodes {
+		// Ignore the directory page of the parent directory's parent
+		if v == "_index.md" {
+			continue
 		}
-	}
 
-	// get all current nodes from map
+		name := strings.ReplaceAll(strings.TrimSuffix(v, ".md"), "_", " ")
+		href := utils.ToHTML(v)
+
+		if base := filepath.Base(basePath); base == v {
+			name += "/"
+		}
+
+		*target = append(*target, Element{Href: href, Name: name})
+	}
+}
+
+func (nav *Navbar) Init(dirMap map[string][]string, path string) error {
+	childNodes := dirMap[path]
+	addElements(childNodes, &nav.Child, path)
+
 	currentDir := filepath.Dir(path)
 	currentNodes := dirMap[currentDir]
+	addElements(currentNodes, &nav.Current, path)
 
-	for _, v := range currentNodes {
-		if v != "_index.md" {
-			var element Element
-			if base := filepath.Base(path); base == v {
-				name := strings.TrimSuffix(v, ".md") + "/"
-				name = strings.ReplaceAll(name, "_", " ")
-				href := utils.ToHTML(v)
-				element = Element{href, name}
-				nav.Current = append(nav.Current, element)
-			} else {
-				name := strings.TrimSuffix(v, ".md")
-				name = strings.ReplaceAll(name, "_", " ")
-				href := utils.ToHTML(v)
-				element = Element{href, name}
-				nav.Current = append(nav.Current, element)
-			}
-
-		}
-	}
-
-	// get all parent nodes from map
 	parentDir := filepath.Dir(currentDir)
 	parentNodes := dirMap[parentDir]
-
-	for _, v := range parentNodes {
-		if v != "_index.md" {
-			var element Element
-
-			if base := filepath.Base(currentDir); base == v {
-				name := strings.TrimSuffix(v, ".md") + "/"
-				name = strings.ReplaceAll(name, "_", " ")
-				href := utils.ToHTML(v)
-				element = Element{href, name}
-				nav.Parent = append(nav.Parent, element)
-			} else {
-				name := strings.TrimSuffix(v, ".md")
-				name = strings.ReplaceAll(name, "_", " ")
-				href := utils.ToHTML(v)
-				element = Element{href, name}
-				nav.Parent = append(nav.Parent, element)
-			}
-		}
-	}
+	addElements(parentNodes, &nav.Parent, currentDir)
 
 	return nil
 }
