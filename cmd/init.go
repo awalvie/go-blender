@@ -13,6 +13,10 @@ var initCmd = &cobra.Command{
 	Run:   initRun,
 }
 
+func init() {
+	rootCmd.AddCommand(initCmd)
+}
+
 func initRun(cmd *cobra.Command, args []string) {
 	fmt.Println("init called")
 }

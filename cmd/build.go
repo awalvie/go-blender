@@ -13,6 +13,10 @@ var buildCmd = &cobra.Command{
 	Run:   buildRun,
 }
 
+func init() {
+	rootCmd.AddCommand(buildCmd)
+}
+
 func buildRun(cmd *cobra.Command, args []string) {
 	fmt.Println("build called")
 }
