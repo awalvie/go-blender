@@ -1,8 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"log"
 
-// main parses arguments and builds website
+	"github.com/awalvie/go-blender/cmd"
+)
+
+func init() {
+	// Configure logger flags
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+}
 func main() {
-	fmt.Println("Insert Meme Here")
+	cmd.Execute()
 }
