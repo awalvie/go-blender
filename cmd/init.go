@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	_ "embed"
 	"log"
 	"os"
 
@@ -46,18 +47,6 @@ func initRun(cmd *cobra.Command, args []string) {
 		if err != nil {
 			log.Fatalf("Error creating directory %s: %v", dir, err)
 		}
-	}
-
-	// Create the default config file
-	configFile := path + "/config.yaml"
-	configContent := `dirs:
-  templates: ./templates
-  static: ./static
-  index: ./index`
-
-	err := os.WriteFile(configFile, []byte(configContent), 0644)
-	if err != nil {
-		log.Fatalf("Error creating config file: %v", err)
 	}
 
 	log.Printf("Site initialized in %s", path)
