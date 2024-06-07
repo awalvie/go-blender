@@ -14,6 +14,10 @@ var buildCmd = &cobra.Command{
 }
 
 func init() {
+	// Setup build flags
+	buildCmd.Flags().StringP("config", "c", "config.yaml", "Build config file")
+
+	// Add build command to root command
 	rootCmd.AddCommand(buildCmd)
 }
 
